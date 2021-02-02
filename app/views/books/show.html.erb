@@ -2,7 +2,7 @@
   <div class='row'>
     <div class='col-md-3'>
       <h2>User info</h2>
-      <%= render 'users/info', user: @book.user %>
+      <%= render 'users/info', user: current_user %>
       <h2 class="mt-3">New book</h2>
       <%= render 'form', book: @book_new %>
     </div>
@@ -26,20 +26,37 @@
           </td>
           <% end %>
           <td>
-          <% if @book.favorited_by?(current_user) %>
+            <% if @book.favorited_by?(current_user) %>
             <p>
-          <%= link_to book_favorites_path(@book), method: :delete do %>
+              <%= link_to book_favorites_path(@book), method: :delete do %>
               ♥<%= @book.favorites.count %>
               <% end %>
-          <% else %>
+            <% else %>
               <%= link_to book_favorites_path(@book), method: :post do %>
               ♡<%= @book.favorites.count %>
               <% end %>
-          <% end %>
+            <% end %>
             </p>
           </td>
+          <td>コメント数 <%= @book.book_comments.count %></td>
         </tr>
       </table>
+      <div class="comments">
+      <% @book.book_comments.each do |book_comment| %>
+        <p>
+          <%= attachment_image_tag(book_comment.user, :profile_image, :fill, 60, 60, fallback: "no-image-icon.jpg") %>
+          <%= book_comment.user.name %>
+          <%= book_comment.comment %>
+          <%= link_to "Delete", book_book_comment_path(book_comment.book, book_comment), class: "btn btn-danger", method: :delete %>
+        </p>
+      <% end %>
+      </div>
+      <div class="new-comments">
+        <%= form_with(model:[@book, @book_comment], local: true) do |f| %>
+          <%= f.text_area :comment %>
+          <%= f.submit %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
