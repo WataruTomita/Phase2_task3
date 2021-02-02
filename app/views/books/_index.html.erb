@@ -21,7 +21,7 @@
         <td>
           <p>
             <%= link_to book_favorites_path(book), method: :delete do %>
-            ♥<%= book.favorites.count %> いいね
+            ♥<%= book.favorites.count %>
             <% end %>
           </p>
         </td>
@@ -29,7 +29,7 @@
         <td>
           <p>
             <%= link_to book_favorites_path(book), method: :post do %>
-            ♡<%= book.favorites.count %> いいね
+            ♡<%= book.favorites.count %>
             <% end %>
           </p>
           <% end %>
